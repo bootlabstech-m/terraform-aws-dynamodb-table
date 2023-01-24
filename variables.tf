@@ -27,13 +27,11 @@ variable "range_key" {
 variable "read_capacity" {
   description = "The number of read units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
   type        = number
-  default     = null
 }
 
 variable "write_capacity" {
   description = "The number of write units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
   type        = number
-  default     = null
 }
 variable "stream_enabled" {
   description = "Indicates whether Streams are to be enabled (true) or disabled (false)."
