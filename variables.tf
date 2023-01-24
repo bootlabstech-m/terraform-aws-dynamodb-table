@@ -1,5 +1,4 @@
 variable "region" {
-  default = "us-east-2"
   type    = string
 }
 variable "dynamodb_table_name" {
@@ -109,5 +108,4 @@ variable "server_side_encryption_kms_key_arn" {
 variable "role_arn" {
   description = " The ARN of the IAM role"
   type = string
-  
 }
