@@ -4,9 +4,11 @@ terraform {
 } 
 
 provider "aws" {
-# Configuration options 
+ Configuration options 
   assume_role { 
   role_arn  = var.role_arn
  } 
  region   = var.region
 }
+
+

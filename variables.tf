@@ -1,48 +1,33 @@
 variable "region" {
   type    = string
 }
-variable "dynamodb_table_name" {
-  description = "Name of the DynamoDB table"
-  type        = string
-}
-
 variable "billing_mode" {
   description = "Controls how you are billed for read/write throughput and how you manage capacity. The valid values are PROVISIONED or PAY_PER_REQUEST"
   type        = string
-  default     = "PROVISIONED"
 }
-
+variable "dynamodb_table_details" {
+  description = "dynamodb_table_details"
+  type        =  list(any)
+}
+/*variable "dynamodb_table_name" {
+  description = "Name of the DynamoDB table"
+  type        = string
+}
 variable "hash_key" {
   description = "The attribute to use as the hash (partition) key. Must also be defined as an attribute"
   type        = string
-  default     = null
 }
-
 variable "range_key" {
   description = "The attribute to use as the range (sort) key. Must also be defined as an attribute"
   type        = string
-  default     = null
-}
-
-variable "read_capacity" {
-  description = "The number of read units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
-  type        = number
-}
-
-variable "write_capacity" {
-  description = "The number of write units for this table. If the billing_mode is PROVISIONED, this field should be greater than 0"
-  type        = number
 }
 variable "stream_enabled" {
   description = "Indicates whether Streams are to be enabled (true) or disabled (false)."
   type        = bool
-  default     = false
 }
-
 variable "table_class" {
   description = "The storage class of the table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS"
   type        = string
-  default     = null
 }
 
 variable "stream_view_type" {
@@ -74,14 +59,15 @@ variable "attributes" {
   type        = list(map(string))
 }
 
-variable "local_secondary_indexes" {
-  description = "Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource."
-  type        = any
-  default     = []
-}
+
 
 variable "global_secondary_indexes" {
   description = "Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc."
+  type        = any
+  default     = []
+}*/
+variable "local_secondary_indexes" {
+  description = "Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource."
   type        = any
   default     = []
 }
@@ -92,17 +78,7 @@ variable "replica_regions" {
   default     = []
 }
 
-variable "server_side_encryption_enabled" {
-  description = "Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK)"
-  type        = bool
-  default     = true
-}
 
-variable "server_side_encryption_kms_key_arn" {
-  description = "The ARN of the CMK that should be used for the AWS KMS encryption. This attribute should only be specified if the key is different from the default DynamoDB CMK, alias/aws/dynamodb."
-  type        = string
-  default     = null
-}
 variable "role_arn" {
   description = " The ARN of the IAM role"
   type = string

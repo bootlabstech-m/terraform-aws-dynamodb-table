@@ -1,19 +1,15 @@
 resource "aws_dynamodb_table" "dynamodb_table" {
-
-  name             = var.dynamodb_table_name
+for_each           = { for dynamodb_table in var.dynamodb_table_details : dynamodb_table.dynamodb_table_name => dynamodb_table }
+  name             = each.value.dynamodb_table_name
+  hash_key         = each.value.hash_key
+  range_key        = each.value.range_key
+  stream_enabled   = each.value.stream_enabled
+  stream_view_type = each.value.stream_view_type
+  table_class      = each.value.table_class
   billing_mode     = var.billing_mode
-  hash_key         = var.hash_key
-  range_key        = var.range_key
-  read_capacity    = var.read_capacity
-  write_capacity   = var.write_capacity
-  stream_enabled   = var.stream_enabled
-  stream_view_type = var.stream_view_type
-  table_class      = var.table_class
-
-
 
   dynamic "attribute" {
-    for_each = var.attributes
+    for_each = each.value.attributes
 
     content {
       name = attribute.value.name
@@ -22,15 +18,13 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   }
 
   ttl {
-    enabled        = var.ttl_enabled
-    attribute_name = var.ttl_attribute_name
+    enabled        = each.value.ttl_enabled
+    attribute_name = each.value.ttl_attribute_name
   }
 
   point_in_time_recovery {
-    enabled = var.point_in_time_recovery_enabled
+    enabled = each.value.point_in_time_recovery_enabled
   }
-
-
 
   dynamic "local_secondary_index" {
     for_each = var.local_secondary_indexes
@@ -44,7 +38,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   }
 
   dynamic "global_secondary_index" {
-    for_each = var.global_secondary_indexes
+    for_each = each.value.global_secondary_indexes
 
     content {
       name               = global_secondary_index.value.name
@@ -63,13 +57,8 @@ resource "aws_dynamodb_table" "dynamodb_table" {
     content {
       region_name = replica.value.region_name
       kms_key_arn = lookup(replica.value, "kms_key_arn", null)
-
-
     }
   }
 
-  server_side_encryption {
-    enabled     = var.server_side_encryption_enabled
-    kms_key_arn = var.server_side_encryption_kms_key_arn
-  }
+
 }
