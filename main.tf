@@ -38,7 +38,7 @@ for_each           = { for dynamodb_table in var.dynamodb_table_details : dynamo
   }
 
   dynamic "global_secondary_index" {
-    for_each = each.value.global_secondary_indexes
+    for_each = var.global_secondary_indexes
 
     content {
       name               = global_secondary_index.value.name
