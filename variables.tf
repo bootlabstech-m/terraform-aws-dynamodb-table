@@ -63,21 +63,6 @@ variable "point_in_time_recovery_enabled" {
   type        = bool
 }
 
-variable "local_secondary_indexes" {
-  description = "Describe an LSI on the table; these can only be allocated at creation so you cannot change this definition after you have created the resource."
-  type        = any
-}
-
-variable "global_secondary_indexes" {
-  description = "Describe a GSI for the table; subject to the normal limits on the number of GSIs, projected attributes, etc."
-  type        = any
-}
-
-variable "replica_regions" {
-  description = "Region names for creating replicas for a global DynamoDB table."
-  type        = any
-}
-
 variable "server_side_encryption_enabled" {
   description = "Whether or not to enable encryption at rest using an AWS managed KMS customer master key (CMK)"
   type        = bool
