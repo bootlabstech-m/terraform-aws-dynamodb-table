@@ -11,15 +11,14 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   table_class      = var.table_class
   deletion_protection_enabled = var.deletion_protection_enabled
 
+  attribute {
+    name = var.hash_key
+    type = "S"
+  }
 
-
-  dynamic "attribute" {
-    for_each = var.attributes
-
-    content {
-      name = attribute.value.name
-      type = attribute.value.type
-    }
+  attribute {
+    name = var.range_key
+    type = "S"
   }
 
   ttl {
@@ -30,9 +29,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   point_in_time_recovery {
     enabled = var.point_in_time_recovery_enabled
   }
-
-
-
+  
   dynamic "local_secondary_index" {
     for_each = var.local_secondary_indexes
 
@@ -63,9 +60,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
 
     content {
       region_name = replica.value.region_name
-      kms_key_arn = lookup(replica.value, "kms_key_arn", null)
-
-
+      kms_key_arn = var.server_side_encryption_kms_key_arn
     }
   }
 
@@ -75,7 +70,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   }
 
   lifecycle {
-     ignore_changes = [replica,read_capacity,write_capacity] 
+     ignore_changes = [[replica],read_capacity,write_capacity] 
   }
 }
 # resource "aws_appautoscaling_target" "dynamodb_table_read_target" {
