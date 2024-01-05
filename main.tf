@@ -29,7 +29,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   point_in_time_recovery {
     enabled = var.point_in_time_recovery_enabled
   }
-  
+
   dynamic "local_secondary_index" {
     for_each = var.local_secondary_indexes
 
@@ -70,7 +70,7 @@ resource "aws_dynamodb_table" "dynamodb_table" {
   }
 
   lifecycle {
-     ignore_changes = [[replica],read_capacity,write_capacity] 
+     ignore_changes = [replica,read_capacity,write_capacity] 
   }
 }
 # resource "aws_appautoscaling_target" "dynamodb_table_read_target" {
